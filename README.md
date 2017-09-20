@@ -1,2 +1,3 @@
-# chesweet
-CheSweet: chemical shifts for glycans
+# *Che*Sweet
+
+*Che*Sweet: chemical shifts for glycans
