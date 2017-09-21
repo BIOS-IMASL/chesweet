@@ -49,7 +49,7 @@ def _nearest_chi(chi):
     return chi_rotamers[indices]
 
 
-def load(path='lut', disaccharides, full=True):
+def load(disaccharides, path='lut', full=True):
     """
     Load CheSweet's look-up table as a dictionary of arrays.
 
