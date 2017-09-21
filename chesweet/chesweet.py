@@ -5,7 +5,7 @@ from scipy.interpolate import griddata
 
 def _round_down_up(tor, step=10.):
     """
-    Round tor down and up to multiples of step
+    Round tor down and up to multiples of step.
 
     Parameters
     ----------
@@ -42,17 +42,34 @@ def _nearest_chi(chi):
     Returns
     ----------
     nearest_chi : float
-        The nearest value in the look-up table for chi.
+        the nearest value in the look-up table for chi
     """
     chi_rotamers = np.array([-180., -60.,  60., 180.])
     indices = np.argmin(np.abs(chi_rotamers - chi))
     return chi_rotamers[indices]
 
 
-def load(path, disaccharides, full=True):
+def load(path='lut', disaccharides, full=True):
     """
     Load CheSweet's look-up table as a dictionary of arrays.
-    The keys are the name of the glycans
+
+    Parameters
+    ----------
+    disaccharides : list of strings
+        names of the disaccharides used as keys in the dictionary
+    path : string
+        folder of CheSweet's lookup table, by default is 'lut'
+    full : Boolean
+        whether to include chi's torsional angles (True) in the computation
+        of chemical shifts or not (False)
+
+    Returns
+    ----------
+    lut : dictionary
+        keys are the names of the dissacharides and values are arrays
+        with the last two columns being the chemical shift pre-calculated 
+        and the rest being torsinal angles. The number of columns in
+        the arrays depends on wheter `full` is True or False
     """
     lut = {}
     if full:
@@ -82,30 +99,39 @@ def load(path, disaccharides, full=True):
 
 
 def compute_cs(disaccharide, lt, phi, psi, chi1=None, chi2=None, chi3=None,
-               full=True, ef_corr=183.4):
+               full=False, ef_corr=183.4):
     """
     Compute the value of a chemical shift given a set of torsional angles,
     the name of a disaccharide and a look-up table.
+
+    Parameters
+    ----------
     disaccharide : string
-        blablablabla
-    lt : Dictionary
+        disaccharides names used as keys in lt dictionary
+    lt : dictionary
         CheSweet's look-up table
     phi : float
-        Phi torsional angle in degrees
+        phi torsional angle in degrees
     psi : float
-        Psi torsional angle in degrees
+        psi torsional angle in degrees
     chi1 : float
-        Chi1 torsional angle in degrees (optional)
+        chi1 torsional angle in degrees (optional)
     chi2 : float
-        Chi2 torsional angle in degrees (optional)
+        chi2 torsional angle in degrees (optional)
     chi3 : float
-        Chi2 torsional angle in degrees (optional)
+        chi2 torsional angle in degrees (optional)
     full: Boolean
-        Whether to include chi's torsional angles (True) in the computation of
+        whether to include chi's torsional angles (True) in the computation of
         chemical shifts or not (False)
     ef_corr : float
-        Correction values used to turn shielding into chemical shifts. Default
+        correction values used to turn shielding into chemical shifts. Default
         value is 183.4
+
+    Returns
+    ----------
+    cs : array
+        interpolated chemical shifts of the first and second carbon in
+        the glycosidic bond
     """
 
     # phi and psi angles in lt are compute using a 10 degree grid.
