@@ -7,7 +7,7 @@ from scipy.interpolate import griddata
 
 class CheSweet():
     """
-    XXX
+    Class to compute chemical shift or torsional angels of glycosidics bonds.
     """
 
     def __init__(self, path='lut', disaccharides=None, full=False):
@@ -104,11 +104,10 @@ class CheSweet():
             cs = np.array([np.inf, np.inf])
         # we hit a border of the computed values!
         elif d_shape < 4:
-            cs = ef_corr - \
-                griddata(data[:, :2],
-                         data[:, -2:],
-                         (phi, psi),
-                         method='nearest')
+            cs = ef_corr - griddata(data[:, :2],
+                                    data[:, -2:],
+                                    (phi, psi),
+                                    method='nearest')
         # life is sweet!
         elif d_shape == 4:
             cs = ef_corr - griddata(data[:, :2],
@@ -116,6 +115,42 @@ class CheSweet():
                                     (phi, psi),
                                     method='linear')
         return cs
+
+    def compute_tors(self, disaccharide, cs0, cs1, ef_corr=183.4, eps=0.5):
+        """
+        Compute the torsional angles given the chemical shift of the
+        carbons in the glycosidic bond
+        
+        Parameters
+        ----------
+        dissacharide : string
+            name of the dissacharide involved
+        cs0, cs1 : float
+            chemical shift of the first and second carbon on the glycosidic
+            bond, respectively
+        ef_corr : float
+            correction values used to turn shielding into chemical shifts.
+            Default value is 183.4
+        eps: float
+            chemical shift tolerance, increasing this value will, in general,
+            increase the number of retrieved torsionals
+
+        Returns
+        ----------
+        theoric_tors: array
+            torsionals from the lookup table in the range of `eps`,
+            the first columns is the phi angle and the second is psi.
+            If the chemical shifts are outside the zone of computed values
+            the function returns an empty array
+        """
+        # transform cs into shieldings
+        cs0 = ef_corr - cs0
+        cs1 = ef_corr - cs1
+        x = self.lt[disaccharide]
+        cond0 = (x[:,2] < cs0 + eps) & (x[:,2]  > cs0 - eps)
+        cond1 = (x[:,3] < cs1 + eps) & (x[:,3]  > cs1 - eps)
+        theoric_tors = x[:,:2][cond0 & cond1]
+        return theoric_tors
 
 
 def _load(self):
