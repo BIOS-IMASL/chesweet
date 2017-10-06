@@ -7,4 +7,5 @@ setup(name='chesweet',
       author_email='garaypablo01@gmail.com, aloctavodia@gmail.com',
       url='https://github.com/BIOS-IMASL/chesweet',
       packages=['chesweet'],
+      install_requires=['numpy', 'scipy'],
 )
