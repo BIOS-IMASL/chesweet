@@ -1,0 +1,4 @@
+# List of files to ignore
+# Ignore temporary folders created with the tests
+chesweet/__pycache__/
+chesweet/test/__pycache__/
