@@ -7,7 +7,7 @@ from scipy.interpolate import griddata
 
 class CheSweet():
     """
-    Class to compute chemical shift or torsional angels of glycosidics bonds.
+    Class to compute chemical shift or torsional angles of glycosidics bonds.
     """
 
     def __init__(self, path='lut', disaccharides=None, full=False):
@@ -69,11 +69,12 @@ class CheSweet():
             the glycosidic bond
         """
 
+        lt = self.lt
         # phi and psi angles in lt are compute using a 10 degree grid.
         phi_range = _round_down_up(phi, 10)
         psi_range = _round_down_up(psi, 10)
         # chi and omega angles in lt are compute in 3 position (60, -60, 180)
-        if full:  # Check how this works with bonds 1-1 (a Chi less)
+        if self.full:  # Check how this works with bonds 1-1 (a Chi less)
             chi1_n = _nearest_chi(chi1)
             chi2_n = _nearest_chi(chi2)
             chi3_n = _nearest_chi(chi3)
