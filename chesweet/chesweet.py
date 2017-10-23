@@ -54,7 +54,7 @@ class CheSweet():
         chi2 : float
             chi2 torsional angle in degrees (optional)
         chi3 : float
-            chi2 torsional angle in degrees (optional)
+            chi3 torsional angle in degrees (optional)
         full: Boolean
             whether to include chi's torsional angles (True) in the computation of
             chemical shifts or not (False)
@@ -74,15 +74,19 @@ class CheSweet():
         phi_range = _round_down_up(phi, 10)
         psi_range = _round_down_up(psi, 10)
         # chi and omega angles in lt are compute in 3 position (60, -60, 180)
-        if self.full:  # Check how this works with bonds 1-1 (a Chi less)
+        if self.full:
             chi1_n = _nearest_chi(chi1)
             chi2_n = _nearest_chi(chi2)
-            chi3_n = _nearest_chi(chi3)
+            if chi3 == None:# glycosidic bonds 1-1 (a Chi less)
+                chi3_n = 0
+            else:
+                chi3_n = _nearest_chi(chi3)
             s_db = lt[disaccharide][(lt[disaccharide][:, 0] >= phi_range[0]) &
                                     (lt[disaccharide][:, 0] <= phi_range[1])]
 
             ss_db = s_db[(s_db[:, 1] >= psi_range[0]) &
                          (s_db[:, 1] <= psi_range[1])]
+            
             data = ss_db[(ss_db[:, 2] == chi1_n) & (
                 ss_db[:, 3] == chi2_n) & (ss_db[:, 4] == chi3_n)]
         else:
