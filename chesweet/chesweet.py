@@ -84,7 +84,7 @@ class CheSweet():
             ss_db = s_db[(s_db[:, 1] >= psi_range[0]) &
                          (s_db[:, 1] <= psi_range[1])]
             data = ss_db[(ss_db[:, 2] == chi1_n) & (
-                ss_db[:, 3] == chi2_n) & (ss_db[:, 4] == chi1_n)]
+                ss_db[:, 3] == chi2_n) & (ss_db[:, 4] == chi3_n)]
         else:
             s_lt = lt[disaccharide][(lt[disaccharide][:, 0] >= phi_range[0]) &
                                     (lt[disaccharide][:, 0] <= phi_range[1])]
