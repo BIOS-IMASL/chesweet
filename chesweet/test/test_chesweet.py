@@ -8,9 +8,9 @@ torsionals = [-10, 10., 180., -180., 60., 75., -185, 185]
 ef_corr = 183.4
 disaccharides_list = ['a-D-Glcp-1-1-a-D-Glcp', 'a-D-Galp-1-3-b-D-Galp', 'b-D-Galp-1-6-b-D-Galp']
 
-disaccharides_red = CheSweet(path='../lut', disaccharides = disaccharides_list)
+disaccharides_red = CheSweet(path='chesweet/lut', disaccharides = disaccharides_list)
 
-disaccharides_full = CheSweet(path='../lut', disaccharides = disaccharides_list, full=True)
+disaccharides_full = CheSweet(path='chesweet/lut', disaccharides = disaccharides_list, full=True)
 
 full_tors_1_3 = [(120, -120, 180, -60, 60), (-80, -130, 50, 50, 170), (0, 0, 60, 60, 60),
                  (105.7, 144.3, 65.3, 160.1, -45.6), (-55.5, -105.6, 78.9, -65.8, 46.79), 
@@ -62,17 +62,17 @@ def test_round_down_up():
         assert _round_down_up(t, 10) == ref[idx]
 
 def test_compute_cs_all():# load all and check if this run
-    disaccharide_test = CheSweet(path='../lut')
+    disaccharide_test = CheSweet(path='chesweet/lut')
     disaccharide_test.compute_cs('{}'.format(disaccharides_list[0]), 50, 60)
 
 def test_compute_cs_few():# load determinated disaccharides and check if this run
-    disaccharides_test = CheSweet(path='../lut', disaccharides=disaccharides_list)
+    disaccharides_test = CheSweet(path='chesweet/lut', disaccharides=disaccharides_list)
     disaccharides_test.compute_cs('{}'.format(disaccharides_list[0]), 50, 60)
     disaccharides_test.compute_cs('{}'.format(disaccharides_list[1]), 50, 60)
     disaccharides_test.compute_cs('{}'.format(disaccharides_list[2]), 50, 60, 60)
 
 def test_compute_cs_one():# load one disaccharide and check if this run
-    che = CheSweet(path='../lut', disaccharides=['{}'.format(disaccharides_list[1])])
+    che = CheSweet(path='chesweet/lut', disaccharides=['{}'.format(disaccharides_list[1])])
     che.compute_cs('{}'.format(disaccharides_list[1]), 50, 60)
 
 
