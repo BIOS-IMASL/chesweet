@@ -63,17 +63,17 @@ def test_round_down_up():
 
 def test_compute_cs_all():# load all and check if this run
     disaccharide_test = CheSweet(path='chesweet/lut')
-    disaccharide_test.compute_cs('{}'.format(disaccharides_list[0]), 50, 60)
+    disaccharide_test.compute_cs(disaccharides_list[0], 50, 60)
 
 def test_compute_cs_few():# load determinated disaccharides and check if this run
     disaccharides_test = CheSweet(path='chesweet/lut', disaccharides=disaccharides_list)
-    disaccharides_test.compute_cs('{}'.format(disaccharides_list[0]), 50, 60)
-    disaccharides_test.compute_cs('{}'.format(disaccharides_list[1]), 50, 60)
-    disaccharides_test.compute_cs('{}'.format(disaccharides_list[2]), 50, 60, 60)
+    disaccharides_test.compute_cs(disaccharides_list[0], 50, 60)
+    disaccharides_test.compute_cs(disaccharides_list[1], 50, 60)
+    disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60)
 
 def test_compute_cs_one():# load one disaccharide and check if this run
-    che = CheSweet(path='chesweet/lut', disaccharides=['{}'.format(disaccharides_list[1])])
-    che.compute_cs('{}'.format(disaccharides_list[1]), 50, 60)
+    che = CheSweet(path='chesweet/lut', disaccharides=[disaccharides_list[1]])
+    che.compute_cs(disaccharides_list[1], 50, 60)
 
 
 def test_full ():
@@ -82,12 +82,12 @@ def test_full ():
         chem_list = all_chem_full[idx]
         for i in range(0, len(tors_list)):
             if disaccharide != 'a-D-Glcp-1-1-a-D-Glcp':# 1-1 a Chi less
-                chemC1_full, chemCx_full = disaccharides_full.compute_cs('{}'.format(disaccharide),
+                chemC1_full, chemCx_full = disaccharides_full.compute_cs(disaccharide,
                                                                          tors_list[i][0], tors_list[i][1],
                                                                          tors_list[i][2], tors_list[i][3],
                                                                          tors_list[i][4])
             else:
-                chemC1_full, chemCx_full = disaccharides_full.compute_cs('{}'.format(disaccharide),
+                chemC1_full, chemCx_full = disaccharides_full.compute_cs(disaccharide,
                                                                          tors_list[i][0], tors_list[i][1],
                                                                          tors_list[i][2], tors_list[i][3])
             if chemC1_full != np.inf:
@@ -109,10 +109,10 @@ def test_red():
         chem_list = all_chem_red[idx]
         for i in range(0, len(tors_list)):
             if disaccharide != 'b-D-Galp-1-6-b-D-Galp':# 1-6 need omega
-                chemC1_red, chemCx_red = disaccharides_red.compute_cs('{}'.format(disaccharide),
+                chemC1_red, chemCx_red = disaccharides_red.compute_cs(disaccharide,
                                                                       tors_list[i][0], tors_list[i][1])
             else:
-                chemC1_red, chemCx_red = disaccharides_red.compute_cs('{}'.format(disaccharide),
+                chemC1_red, chemCx_red = disaccharides_red.compute_cs(disaccharide,
                                                                       tors_list[i][0], tors_list[i][1],
                                                                       tors_list[i][2])
             if chemC1_red != np.inf:
