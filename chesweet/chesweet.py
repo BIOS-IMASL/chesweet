@@ -152,9 +152,18 @@ class CheSweet():
         cs0 = ef_corr - cs0
         cs1 = ef_corr - cs1
         x = self.lt[disaccharide]
-        cond0 = (x[:,2] < cs0 + eps) & (x[:,2]  > cs0 - eps)
-        cond1 = (x[:,3] < cs1 + eps) & (x[:,3]  > cs1 - eps)
-        theoric_tors = x[:,:2][cond0 & cond1]
+        cond0 = (x[:,-2] < cs0 + eps) & (x[:,-2]  > cs0 - eps)
+        cond1 = (x[:,-1] < cs1 + eps) & (x[:,-1]  > cs1 - eps)
+        if self.full:
+            if int(disaccharide.split('-')[4]) == 1:# bonds 1-1
+                theoric_tors = x[:,:4][cond0 & cond1]
+            else:# bonds different from 1-6
+                theoric_tors = x[:,:5][cond0 & cond1]
+        else:# reduced
+            if x.shape[1] == 4:# bonds different from 1-6
+                theoric_tors = x[:,:2][cond0 & cond1]
+            else:# 1-6 bonds
+                theoric_tors = x[:,:4][cond0 & cond1]
         return theoric_tors
 
 
