@@ -164,7 +164,7 @@ class CheSweet():
             if x.shape[1] == 4:# bonds different from 1-6
                 theoric_tors = x[:,:2][cond0 & cond1]
             else:# 1-6 bonds
-                theoric_tors = x[:,:4][cond0 & cond1]
+                theoric_tors = x[:,:3][cond0 & cond1]
         return theoric_tors
 
 
