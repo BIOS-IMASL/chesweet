@@ -144,7 +144,8 @@ class CheSweet():
         ----------
         theoric_tors: array
             torsionals from the lookup table in the range of `eps`,
-            the first columns is the phi angle and the second is psi.
+            if `full=True` returns torsionals phi, psi and omega/chi's
+            otherwise return only phi and psi/omega.
             If the chemical shifts are outside the zone of computed values
             the function returns an empty array
         """
