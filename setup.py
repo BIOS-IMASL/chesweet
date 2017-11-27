@@ -8,4 +8,5 @@ setup(name='chesweet',
       url='https://github.com/BIOS-IMASL/chesweet',
       packages=['chesweet'],
       install_requires=['numpy', 'scipy'],
-)
+      include_package_data = True
+    )
