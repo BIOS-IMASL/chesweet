@@ -19,8 +19,7 @@ class CheSweet():
         disaccharides : list of strings
             names of the disaccharides used as keys in the dictionary
         path : string
-            folder of CheSweet's lookup table, by default is None otherwise
-            use the path provided by the user
+            folder of lookup table, if None (default) CheSweet's lookup table will be used
         full : Boolean
             whether to include chi's torsional angles (True) in the computation
             of chemical shifts or not (False)
