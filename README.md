@@ -62,9 +62,11 @@ import chesweet as chsw
 ```
 
 ### Load look-up tables (lut)
-One of the main argument of `load` is `full`. Passing `False` is useful when working with the glycosidic torsional angles $\phi$, $\psi$ and $\omega$, `True` allows you to work with the mentioned torsional angles and also included the $\chi$ torsionals. In the image below you can see the mentioned torsional angles for $\alpha$-D-Glcp-(1-4)-$\alpha$-D-Glcp.  
+One of the main argument of `load` is `full`. Passing `False` is useful when working with the glycosidic torsional angles Φ, Ψ and Ω, `True` allows you to work with the mentioned torsional angles and also included the *Χ* torsionals. In the image below you can see the mentioned torsional angles for α-D-Glcp-(1-4)-α-D-Glcp.  
 
-<img src="img/maltose_all_torsional.png" width=500>
+<p align="center">
+<img src="img/maltose_all_torsional.png", width=500>
+</p>
 
 The names of the disaccharides used by *Che*Sweet follow the IUPAC syntax, but without the parentheses in the bond, e.g. for maltose the IUPAC name is a-D-Glcp-(1-4)-a-D-Glcp, *Che*Sweet uses a-D-Glcp-1-4-a-D-Glcp.
 
@@ -99,11 +101,11 @@ disaccharides_full = CheSweet(disaccharides = disaccharides_list, full=True)
 ```
 
 Once you have loaded the lool-up tables it is possible to calculate the chemical shifts or the torsional that you want.  
-In the next examples we show how to use these functions for maltose \[$\alpha$-D-Glcp-(1-4)-$\alpha$-D-Glcp]
+In the next examples we show how to use these functions for maltose \[α-D-Glcp-(1-4)-α-D-Glcp]
 
 ### Calculate chemical shifts from torsional values (using `compute_cs()` function)
 
-Using the reduced look-up table you have to provide the name of the disaccharide and the values of $\phi$ and $\psi$ torsionals:  
+Using the reduced look-up table you have to provide the name of the disaccharide and the values of Φ and Ψ torsionals:  
 
 ```python
 chemC1_red, chemCx_red = maltose_red.compute_cs('a-D-Glcp-1-4-a-D-Glcp', 85.3, 76.8)
@@ -111,7 +113,7 @@ print(chemC1_red, chemCx_red)
 102.852047 76.693767
 ```
 
-When using the full look-up table you have to also provide the $\chi$ torsional angles:
+When using the full look-up table you have to also provide the *Χ* torsional angles:
 
 ```python
 # Using full=True
@@ -135,7 +137,7 @@ print(tors_array_red)
  [ 130.  130.]
  [ 140.  100.]]
 ```
-In this case, we obtain information only about $\phi$ and $\psi$, first and second column respectively.
+In this case, we obtain information only about Φ and Ψ, first and second column respectively.
 You can obtain more values for these torsionals by increasing the value of the parameter `eps` (by default 0.5):  
 
 ```python
@@ -174,7 +176,7 @@ print(tors_array_full)
  [ 140.  130.  -60.  -60.  -60.]]
 ```
 
-You can see in these examples that depending on the datasets used (reduced or full) the obtained result can have little differences and be using the full version of the dataset you have additional information about the $\chi$ angles.
+You can see in these examples that depending on the datasets used (reduced or full) the obtained result can have little differences and be using the full version of the dataset you have additional information about the *Χ* angles.
 
 ## References
 
