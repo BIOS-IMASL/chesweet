@@ -161,9 +161,33 @@ def test_round_down_up():
     for idx, t in enumerate(torsionals):
         assert _round_down_up(t, 10) == ref[idx]
 
+def test_compute_cs_all_no_path():# load all without path and check if this run
+    disaccharide_test = CheSweet()
+    disaccharide_test.compute_cs(disaccharides_list[0], 50, 60)
+
+def test_compute_cs_all_no_path_full():# load all (full) without path and check if this run
+    disaccharide_test = CheSweet(full=True)
+    disaccharide_test.compute_cs(disaccharides_list[0], 50, 60, 46.8, 78.6, 173.1)
+
+def test_compute_cs_few_no_path():# load determinated disaccharides without path and check if this run
+    disaccharides_test = CheSweet(disaccharides=disaccharides_list)
+    disaccharides_test.compute_cs(disaccharides_list[0], 50, 60)
+    disaccharides_test.compute_cs(disaccharides_list[1], 50, 60)
+    disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60)
+
+def test_compute_cs_few_no_path_full():# load determinated disaccharides (full) without path and check if this run
+    disaccharides_test = CheSweet(disaccharides=disaccharides_list, full=True)
+    disaccharides_test.compute_cs(disaccharides_list[0], 50, 60, 46.8, 78.6, 173.1)
+    disaccharides_test.compute_cs(disaccharides_list[1], 50, 60, 46.8, 78.6, 173.1)
+    disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60, 46.8, 78.6)
+
 def test_compute_cs_all():# load all and check if this run
     disaccharide_test = CheSweet(path='chesweet/lut')
     disaccharide_test.compute_cs(disaccharides_list[0], 50, 60)
+
+def test_compute_cs_all_full():# load all (full) and check if this run
+    disaccharide_test = CheSweet(path='chesweet/lut', full=True)
+    disaccharide_test.compute_cs(disaccharides_list[0], 50, 60, 46.8, 78.6, 173.1)
 
 def test_compute_cs_few():# load determinated disaccharides and check if this run
     disaccharides_test = CheSweet(path='chesweet/lut', disaccharides=disaccharides_list)
@@ -171,9 +195,11 @@ def test_compute_cs_few():# load determinated disaccharides and check if this ru
     disaccharides_test.compute_cs(disaccharides_list[1], 50, 60)
     disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60)
 
-def test_compute_cs_one():# load one disaccharide and check if this run
-    che = CheSweet(path='chesweet/lut', disaccharides=[disaccharides_list[1]])
-    che.compute_cs(disaccharides_list[1], 50, 60)
+def test_compute_cs_few_full():# load determinated disaccharides (full) and check if this run
+    disaccharides_test = CheSweet(path='chesweet/lut', disaccharides=disaccharides_list, full=True)
+    disaccharides_test.compute_cs(disaccharides_list[0], 50, 60, 46.8, 78.6, 173.1)
+    disaccharides_test.compute_cs(disaccharides_list[1], 50, 60, 46.8, 78.6, 173.1)
+    disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60, 46.8, 78.6)
 
 
 def test_compute_cs_full():
@@ -201,7 +227,6 @@ def test_compute_cs_full():
                                                decimal=4)
                 np.testing.assert_almost_equal(chemCx_full, chem_list[i][1],
                                                decimal=4)
-
 
 def test_compute_cs_red():
     for idx, disaccharide in enumerate(disaccharides_list):
@@ -243,7 +268,6 @@ def test_compute_tors_full():
             else:# values out of the distribution
                 assert y.size == 0
 
-
 def test_compute_tors_red():
     for idx, disaccharide in enumerate(disaccharides_list):
         chem_list = all_chem_test_red[idx]
@@ -258,6 +282,5 @@ def test_compute_tors_red():
                 np.testing.assert_array_almost_equal(x, y, decimal=1, verbose=True)
             else:# values out of the distribution
                 assert y.size == 0
-
 
 

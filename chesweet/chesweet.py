@@ -3,33 +3,40 @@ from os.path import basename as bn
 import math
 import numpy as np
 from scipy.interpolate import griddata
-
+from os.path import dirname
+from os.path import join
+import sys
 
 class CheSweet():
     """
     Class to compute chemical shift or torsional angles of glycosidics bonds.
     """
 
-    def __init__(self, path='lut', disaccharides=None, full=False):
+    def __init__(self, path=None, disaccharides=None, full=False):
         """
         Parameters
         ----------
         disaccharides : list of strings
             names of the disaccharides used as keys in the dictionary
         path : string
-            folder of CheSweet's lookup table, by default is 'lut'
+            folder of lookup table, if None (default) CheSweet's lookup table will be used
         full : Boolean
             whether to include chi's torsional angles (True) in the computation
             of chemical shifts or not (False)
         """
-        self.path = path
+        if path == None:
+            path = dirname(__file__)
+            sys.path.append(path)
+            lut_path = join(path, 'lut')
+            self.path = lut_path
+        else:
+            self.path = path
         self.full = full
         if disaccharides is None:
             files = '{}/*[!_red]'.format(self.path)
             self.disaccharides = [bn(a) for a in glob.glob(files)]
         else:
             self.disaccharides = disaccharides
-
         self.lt = _load(self)
 
 
@@ -56,11 +63,11 @@ class CheSweet():
         chi3 : float
             chi3 torsional angle in degrees (optional)
         full: Boolean
-            whether to include chi's torsional angles (True) in the computation of
-            chemical shifts or not (False)
+            whether to include chi's torsional angles (True) in the
+            computation of chemical shifts or not (False)
         ef_corr : float
-            correction values used to turn shielding into chemical shifts. Default
-            value is 183.4
+            correction values used to turn shielding into chemical shifts.
+            Default value is 183.4
 
         Returns
         ----------
