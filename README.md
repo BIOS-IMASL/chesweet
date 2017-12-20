@@ -44,12 +44,17 @@ pip install chesweet/
 After installation is done you can run the automatic tests (optional), you will need to have `pytest` package installed, depending on the way that you downloaded the folder run:
 
 ```
-pytest chesweet-master
+cd chesweet-master
 ```
 **or**
 
 ```
-pytest chesweet
+cd chesweet
+```
+
+And then run the test with:  
+```
+pytest
 ```
 
 This will check that all functions of *Che*Sweet work in your installation. You can also use the `nose` package instead of `pytest`.
@@ -98,65 +103,6 @@ disaccharides_red = chsw.CheSweet(disaccharides = disaccharides_list)
 
 # Using full=True
 disaccharides_full = CheSweet(disaccharides = disaccharides_list, full=True)
-```
-
-#### Format of the look-up table files
-
-For each look-up table file (lut file, for short) the last two columns are the values of the pre-calculated CS. The first of that columns corresponds to the C1 and the last correspond to the second carbon in the glycosidic bond (Cx). The remaining columns are the torsional angles.  
-
-There are two types of lut files for each disaccharide, one type (called *"full"*) includes all the torsional angles (lut files with the name of the disaccharide) and the other type (called *"reduce"*) only includes the torsionals of the glycosidic bond (lut files with the name ended with "_red"). Which of this files is used in the calculation is controlled with the keyword `full`. 
-
-Last 4 lines in the file "a-D-Glcp-1-1-a-D-Glcp", the header with the columns names is not present in the actual lut files and is show here only to help identify the content of each column:  
-```
-  phi psi  chi1 chi2 nan  nan    C1 CS    C1' CS
- -10  130  -60  -60    0    0    87.3016  87.6553
- -10  140   60   60    0    0    85.9775  86.1810
- -10  140  180   60    0    0    86.0382  85.3786
- -10  140  -60   60    0    0    84.7857  85.0489
-```
-
-Here the chi1 belongs to the first residue and chi2 to the second residue
-
-Last 4 lines in the file "a-D-Glcp-1-4-a-D-Glcp":  
-```
-  phi psi  chi1 chi2  chi3  nan  C1 CS    C4' CS
- -10  130  180  -60  -60    0    89.1629 117.2891
- -10  130  -60   60  -60    0    88.2327 117.6398
- -10  130  -60  180  -60    0    88.2642 115.4036
- -10  130  -60  -60  -60    0    87.5465 116.9395
-```
-
-Here chi1 belongs to the first residue and chi2-chi3 to the second residue
-
-Last 4 lines in the file "a-D-Glcp-1-6-a-D-Glcp":  
-```
-  phi psi  chi1 chi2  chi3  nan  C1 CS   C6' CS
- -10  -90  180  180  -60    0    85.2663 114.0324
- -10  -90  180  -60   60    0    84.0807 113.5660
- -10  -90  180  -60  180    0    84.9781 113.5554
- -10  -90  180  -60  -60    0    83.9020 113.9225
-```
- 
-The columns with all-zeros are not used in the calculations, these columns are just placeholders in case a dissacharide with an additional torsional angle is included in the future.
-
-In contrast to the full lut files, that have a variable number of columns all reduced lut files have 4 columns, except for 1-6 glycosidic bonds were an omega angle included, as you can see below.
-
-First 4 lines in the file "a-D-Glcp-1-4-a-D-Glcp_red":  
-```
-  phi psi  C1 CS   C4' CS
- -10  100  89.6864 116.5005
- -10  110  90.2366 114.8895
- -10  120  89.9299 116.8816
- -10  130  89.0696 116.8426
-```
-
-Last 4 lines in the file "a-D-Glcp-1-6-a-D-Glcp_red":  
-```
-  phi psi omega C1 CS   C6' CS
- -10 -110  180  85.9299 117.8878
- -10 -100   60  84.3075 119.8173
- -10 -100  180  85.5578 115.8875
- -10  -90  180  85.0815 113.8175
 ```
 
 Once you have loaded the look-up tables it is possible to calculate the chemical shifts or the torsional that you want.  
@@ -236,6 +182,65 @@ print(tors_array_full)
 ```
 
 You can see in these examples that depending on the datasets used (reduced or full) the obtained result can have little differences and be using the full version of the dataset you have additional information about the *Χ* angles.  
+
+#### Format of the look-up table files
+
+For each look-up table file (lut file, for short) the last two columns are the values of the pre-calculated CS. The first of that columns corresponds to the C1 and the last correspond to the second carbon in the glycosidic bond (Cx). The remaining columns are the torsional angles.  
+
+There are two types of lut files for each disaccharide, one type (called *"full"*) includes all the torsional angles (lut files with the name of the disaccharide) and the other type (called *"reduce"*) only includes the torsionals of the glycosidic bond (lut files with the name ended with "_red"). Which of this files is used in the calculation is controlled with the keyword `full`. 
+
+Last 4 lines in the file "a-D-Glcp-1-1-a-D-Glcp", the header with the columns names is not present in the actual lut files and is show here only to help identify the content of each column:  
+```
+  phi psi  chi1 chi2 nan  nan    C1 CS    C1' CS
+ -10  130  -60  -60    0    0    87.3016  87.6553
+ -10  140   60   60    0    0    85.9775  86.1810
+ -10  140  180   60    0    0    86.0382  85.3786
+ -10  140  -60   60    0    0    84.7857  85.0489
+```
+
+Here the chi1 belongs to the first residue and chi2 to the second residue
+
+Last 4 lines in the file "a-D-Glcp-1-4-a-D-Glcp":  
+```
+  phi psi  chi1 chi2  chi3  nan  C1 CS    C4' CS
+ -10  130  180  -60  -60    0    89.1629 117.2891
+ -10  130  -60   60  -60    0    88.2327 117.6398
+ -10  130  -60  180  -60    0    88.2642 115.4036
+ -10  130  -60  -60  -60    0    87.5465 116.9395
+```
+
+Here chi1 belongs to the first residue and chi2-chi3 to the second residue
+
+Last 4 lines in the file "a-D-Glcp-1-6-a-D-Glcp":  
+```
+  phi psi  chi1 chi2  chi3  nan  C1 CS   C6' CS
+ -10  -90  180  180  -60    0    85.2663 114.0324
+ -10  -90  180  -60   60    0    84.0807 113.5660
+ -10  -90  180  -60  180    0    84.9781 113.5554
+ -10  -90  180  -60  -60    0    83.9020 113.9225
+```
+ 
+The columns with all-zeros are not used in the calculations, these columns are just placeholders in case a dissacharide with an additional torsional angle is included in the future.
+
+In contrast to the full lut files, that have a variable number of columns all reduced lut files have 4 columns, except for 1-6 glycosidic bonds were an omega angle included, as you can see below.
+
+First 4 lines in the file "a-D-Glcp-1-4-a-D-Glcp_red":  
+```
+  phi psi  C1 CS   C4' CS
+ -10  100  89.6864 116.5005
+ -10  110  90.2366 114.8895
+ -10  120  89.9299 116.8816
+ -10  130  89.0696 116.8426
+```
+
+Last 4 lines in the file "a-D-Glcp-1-6-a-D-Glcp_red":  
+```
+  phi psi omega C1 CS   C6' CS
+ -10 -110  180  85.9299 117.8878
+ -10 -100   60  84.3075 119.8173
+ -10 -100  180  85.5578 115.8875
+ -10  -90  180  85.0815 113.8175
+```
 
 ## Support
 
