@@ -239,7 +239,7 @@ def test_compute_tors_full():
             x = tors_list[i]
             y = disaccharides_full.compute_tors('{}'.format(disaccharide),
                                                 cs1, cs2, ef_corr=ef_corr, eps=0.5)
-            if y.size:
+            if y:
                 np.testing.assert_array_almost_equal(x, y, decimal=1, verbose=True)
 
 
@@ -253,6 +253,6 @@ def test_compute_tors_red():
             x = tors_list[i]
             y = disaccharides_red.compute_tors('{}'.format(disaccharide),
                                                cs1, cs2, ef_corr=ef_corr, eps=0.5)
-            if y.size:
+            if y:
                 np.testing.assert_array_almost_equal(x, y, decimal=1, verbose=True)
 
