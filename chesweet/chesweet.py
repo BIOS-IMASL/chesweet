@@ -1,42 +1,40 @@
 import glob
 from os.path import basename as bn
+import pkg_resources as pkg
+from os.path import join
+import sys
 import math
 import numpy as np
 from scipy.interpolate import griddata
-from os.path import dirname
-from os.path import join
-import sys
+
 
 class CheSweet():
     """
     Class to compute chemical shift or torsional angles of glycosidics bonds.
     """
 
-    def __init__(self, path=None, disaccharides=None, full=False):
+    def __init__(self, path=None, full=False):
         """
         Parameters
         ----------
-        disaccharides : list of strings
-            names of the disaccharides used as keys in the dictionary
         path : string
             folder of lookup table, if None (default) CheSweet's lookup table will be used
         full : Boolean
             whether to include chi's torsional angles (True) in the computation
             of chemical shifts or not (False)
         """
-        if path == None:
-            path = dirname(__file__)
-            sys.path.append(path)
-            lut_path = join(path, 'lut')
-            self.path = lut_path
-        else:
-            self.path = path
         self.full = full
-        if disaccharides is None:
-            files = '{}/*[!_red]'.format(self.path)
-            self.disaccharides = [bn(a) for a in glob.glob(files)]
+        
+        if path is None:
+            files = pkg.resource_filename(__name__, '/'.join(['lut']))
         else:
-            self.disaccharides = disaccharides
+            files = '/'.join([path, 'lut'])
+        
+        if full:
+            self.disaccharides = glob.glob('{}/*[!_red]'.format(files))
+        else:
+            self.disaccharides = glob.glob('{}/*_red'.format(files))
+
         self.lt = _load(self)
 
 
@@ -77,6 +75,8 @@ class CheSweet():
         """
 
         lt = self.lt
+        if not self.full:
+            disaccharide = disaccharide + '_red'
         # phi and psi angles in lt are compute using a 10 degree grid.
         phi_range = _round_down_up(phi, 10)
         psi_range = _round_down_up(psi, 10)
@@ -159,9 +159,14 @@ class CheSweet():
         # transform cs into shieldings
         cs0 = ef_corr - cs0
         cs1 = ef_corr - cs1
+
+        if not self.full:
+            disaccharide = disaccharide + '_red'
+
         x = self.lt[disaccharide]
         cond0 = (x[:,-2] < cs0 + eps) & (x[:,-2]  > cs0 - eps)
         cond1 = (x[:,-1] < cs1 + eps) & (x[:,-1]  > cs1 - eps)
+        
         if self.full:
             if int(disaccharide.split('-')[4]) == 1:# bonds 1-1
                 theoric_tors = x[:,:4][cond0 & cond1]
@@ -190,29 +195,15 @@ def _load(self):
     lut = {}
     if self.full:
         for disaccharide in self.disaccharides:
-            try:
-                lut[disaccharide] = np.fromfile('{}/{}'.format(self.path,
-                                                disaccharide),
-                                                sep=' ').reshape(-1, 8)
-            except FileNotFoundError:
-                print("The dissacharide {} is not calculated, "
-                      "or the path {} is wrong".format(disaccharide, self.path))
+            lut[bn(disaccharide)] = np.fromfile(disaccharide, sep=' ').reshape(-1, 8)
     else:
         for disaccharide in self.disaccharides:
-            try:
-                # Disaccharides with 1-6 glycosidic bond
-                if '-1-6-' in disaccharide:  
-                    lut[disaccharide] = np.fromfile('{}/{}_red'.format(self.path,
-                                                                       disaccharide),
-                                                                       sep=' ').reshape(-1, 5)
-                # Disaccharides with glycosidic bond different from 1-6
-                else:
-                    lut[disaccharide] = np.fromfile('{}/{}_red'.format(self.path,
-                                                                       disaccharide),
-                                                                       sep=' ').reshape(-1, 4)
-            except FileNotFoundError:
-                print("The dissacharide {} is not calculated, "
-                      "or the path {} is wrong".format(disaccharide, self.path))
+            # Disaccharides with 1-6 glycosidic bond
+            if '-1-6-' in disaccharide:
+                lut[bn(disaccharide)] = np.fromfile(disaccharide, sep=' ').reshape(-1, 5)
+            # Disaccharides with glycosidic bond different from 1-6
+            else:
+                lut[bn(disaccharide)] = np.fromfile(disaccharide, sep=' ').reshape(-1, 4)
 
     if lut:
         return lut
