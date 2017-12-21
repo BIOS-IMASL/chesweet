@@ -46,6 +46,7 @@ After installation is done you can run the automatic tests (optional), you will 
 ```
 cd chesweet-master
 ```
+
 **or**
 
 ```
@@ -67,7 +68,7 @@ import chesweet as chsw
 ```
 
 ### Load look-up tables (lut)
-One of the main argument of `load` is `full`. Passing `False` (default) is useful when working with the glycosidic torsional angles phi (Φ), psi (Ψ), and omega (Ω), `True` allows you to work with the mentioned torsional angles and also included the chi (*Χ*) torsionals. In the image below you can see the mentioned torsional angles for α-D-Glcp-(1-4)-α-D-Glcp.  
+The main argument of `load` is `full`. Passing `False` (default) is useful when working with the glycosidic torsional angles phi (Φ), psi (Ψ), and omega (Ω), `True` allows you to work with the mentioned torsional angles and also included the chi (*Χ*) torsionals. In the image below you can see the mentioned torsional angles for α-D-Glcp-(1-4)-α-D-Glcp.  
 
 <p align="center">
 <img src="img/maltose_all_torsional.png", width=500>
@@ -77,6 +78,7 @@ The names of the disaccharides used by *Che*Sweet follow the IUPAC syntax, but w
 
 Examples:  
 Load **all calculated dissacharides** in *Che*Sweet:  
+
 ```python
 # Reduced version of the datasets (using only phi, psi and omega)
 disaccharides_red = chsw.CheSweet()
@@ -85,25 +87,7 @@ disaccharides_red = chsw.CheSweet()
 disaccharides_full = chsw.CheSweet(full=True)
 ```
 
-Load **one dissacharide**:  
-```python
-# Reduced version of the datasets
-maltose_red = chsw.CheSweet(disaccharides = ['a-D-Glcp-1-4-a-D-Glcp'])
-
-# Using full=True
-maltose_full = chsw.CheSweet(disaccharides = ['a-D-Glcp-1-4-a-D-Glcp'], full=True)
-```
-
-Load **a number of dissacharides**:  
-```python
-disaccharides_list = ['a-D-Glcp-1-4-a-D-Glcp', 'a-D-Glcp-1-1-a-D-Glcp', 'a-D-Galp-1-3-b-D-Galp', 'b-D-Galp-1-6-b-D-Galp']
-
-# Reduced version of the datasets
-disaccharides_red = chsw.CheSweet(disaccharides = disaccharides_list)
-
-# Using full=True
-disaccharides_full = CheSweet(disaccharides = disaccharides_list, full=True)
-```
+You have the option of changing the location of the folder `lut`, in that case, you have to indicate the new location on the argument `path`.  
 
 Once you have loaded the look-up tables it is possible to calculate the chemical shifts or the torsional that you want.  
 In the next examples we show how to use these functions for maltose \[α-D-Glcp-(1-4)-α-D-Glcp].

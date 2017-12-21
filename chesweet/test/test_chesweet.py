@@ -1,4 +1,3 @@
-#from numpy.testing import assert_almost_equal
 import numpy as np
 from ..chesweet import *
 from ..chesweet import _round_down_up, _nearest_chi
@@ -8,9 +7,9 @@ torsionals = [-10, 10., 180., -180., 60., 75., -185, 185]
 ef_corr = 183.4
 disaccharides_list = ['a-D-Glcp-1-1-a-D-Glcp', 'a-D-Galp-1-3-b-D-Galp', 'b-D-Galp-1-6-b-D-Galp']
 
-disaccharides_red = CheSweet(path='chesweet/lut', disaccharides = disaccharides_list)
+disaccharides_red = CheSweet()
 
-disaccharides_full = CheSweet(path='chesweet/lut', disaccharides = disaccharides_list, full=True)
+disaccharides_full = CheSweet(full=True)
 
 ### Data to test compute_cs function
 
@@ -43,8 +42,8 @@ full_chem_1_6 = [(72.9099, 113.8796), (76.7441, 112.9245), (np.inf, np.inf),
                  (77.953199, 109.076416), (72.6276, 112.8706), 
                  (np.inf, np.inf)]
 
-red_tors_1_6 = [(-70, 120, 180), (135, 65, 60), (0, -10, 60), 
-                 (-126.4, 46.7, 46.8), (-155.7, -76.4, 160.8), (-175.89, -26.7, 78.6)]
+red_tors_1_6 = [(-70, 120, 180), (135, 65, 60), (0, -10, 60), (-126.4, 46.7, 46.8),
+                (-155.7, -76.4, 160.8), (-175.89, -26.7, 78.6)]
 red_chem_1_6 = [(72.4989, 113.5847),(77.6637, 113.626), (np.inf, np.inf), 
                 (79.505894, 109.841949), (71.4614, 112.203), (np.inf, np.inf)]
 
@@ -74,8 +73,7 @@ tors_test_full_1_3 = [np.array([[ 100., -120.,  -60.,  -60.,   60.],
                                 [ 140., -120.,  180.,  180.,  -60.]]),
                       np.zeros(shape=(0, 5)),
                       np.zeros(shape=(0, 5)),
-                      np.zeros(shape=(0, 5))
-                     ]# np.zeros only used to completed the list
+                      np.zeros(shape=(0, 5))]  # np.zeros only used to completed the list
 
 chem_test_full_1_1 = [(82.4441, 90.0294), (20, 150), (82.4441, 150),
                       (20, 90.0294)]
@@ -93,8 +91,7 @@ tors_test_full_1_1 = [np.array([[-120.,  100.,   60.,  180.],
                                 [ -70.,   90.,  180.,   60.]]),
                       np.zeros(shape=(0, 5)),
                       np.zeros(shape=(0, 5)),
-                      np.zeros(shape=(0, 5))
-                     ]
+                      np.zeros(shape=(0, 5))]
 
 chem_test_full_1_6 = [(68.7441, 112.9245), (20, 150), (68.7441, 150),
                       (20, 112.9245)]
@@ -107,8 +104,7 @@ tors_test_full_1_6 = [np.array([[  40.,  -20.,   60.,  180.,  -60.],
                                 [ -80., -120.,  180.,  180.,  -60.]]),
                       np.zeros(shape=(0, 5)),
                       np.zeros(shape=(0, 5)),
-                      np.zeros(shape=(0, 5))
-                     ]
+                      np.zeros(shape=(0, 5))]
 
 chem_test_red_1_3 = [(71.9521, 91.3869), (20, 150), (71.9521, 150),
                      (20, 91.3869)]
@@ -118,8 +114,7 @@ tors_test_red_1_3 = [np.array([[ 110., -120.],
                                [ 120., -120.]]),
                      np.zeros(shape=(0, 5)),
                      np.zeros(shape=(0, 5)),
-                     np.zeros(shape=(0, 5))
-                     ]
+                     np.zeros(shape=(0, 5))]
 
 chem_test_red_1_1 = [(82.4441, 90.0294), (20, 150), (82.4441, 150),
                      (20, 90.0294)]
@@ -127,8 +122,7 @@ tors_test_red_1_1 = [np.array([[-110.,   90.],
                                [ -90.,  100.]]),
                      np.zeros(shape=(0, 5)),
                      np.zeros(shape=(0, 5)),
-                     np.zeros(shape=(0, 5))
-                    ]
+                     np.zeros(shape=(0, 5))]
 
 chem_test_red_1_6 = [(68.7441, 112.9245), (20, 150), (68.7441, 150), 
                      (20, 112.9245)]
@@ -144,8 +138,7 @@ tors_test_red_1_6 = [np.array([[  20.,  -50.,  180.],
                                [ -90., -180.,  180.]]),
                       np.zeros(shape=(0, 5)),
                       np.zeros(shape=(0, 5)),
-                      np.zeros(shape=(0, 5))
-                    ]
+                      np.zeros(shape=(0, 5))]
 
 all_chem_test_full = [chem_test_full_1_3, chem_test_full_1_1, chem_test_full_1_6]
 all_tors_test_full = [tors_test_full_1_3, tors_test_full_1_1, tors_test_full_1_6]
@@ -161,42 +154,27 @@ def test_round_down_up():
     for idx, t in enumerate(torsionals):
         assert _round_down_up(t, 10) == ref[idx]
 
-def test_compute_cs_all_no_path():# load all without path and check if this run
-    disaccharide_test = CheSweet()
-    disaccharide_test.compute_cs(disaccharides_list[0], 50, 60)
 
-def test_compute_cs_all_no_path_full():# load all (full) without path and check if this run
-    disaccharide_test = CheSweet(full=True)
-    disaccharide_test.compute_cs(disaccharides_list[0], 50, 60, 46.8, 78.6, 173.1)
-
-def test_compute_cs_few_no_path():# load determinated disaccharides without path and check if this run
-    disaccharides_test = CheSweet(disaccharides=disaccharides_list)
+def test_compute_cs_no_path():
+    disaccharides_test = CheSweet()
     disaccharides_test.compute_cs(disaccharides_list[0], 50, 60)
     disaccharides_test.compute_cs(disaccharides_list[1], 50, 60)
     disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60)
 
-def test_compute_cs_few_no_path_full():# load determinated disaccharides (full) without path and check if this run
-    disaccharides_test = CheSweet(disaccharides=disaccharides_list, full=True)
+def test_compute_cs_no_path_full():
+    disaccharides_test = CheSweet(full=True)
     disaccharides_test.compute_cs(disaccharides_list[0], 50, 60, 46.8, 78.6, 173.1)
     disaccharides_test.compute_cs(disaccharides_list[1], 50, 60, 46.8, 78.6, 173.1)
     disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60, 46.8, 78.6)
 
-def test_compute_cs_all():# load all and check if this run
-    disaccharide_test = CheSweet(path='chesweet/lut')
-    disaccharide_test.compute_cs(disaccharides_list[0], 50, 60)
-
-def test_compute_cs_all_full():# load all (full) and check if this run
-    disaccharide_test = CheSweet(path='chesweet/lut', full=True)
-    disaccharide_test.compute_cs(disaccharides_list[0], 50, 60, 46.8, 78.6, 173.1)
-
-def test_compute_cs_few():# load determinated disaccharides and check if this run
-    disaccharides_test = CheSweet(path='chesweet/lut', disaccharides=disaccharides_list)
+def test_compute_cs():
+    disaccharides_test = CheSweet(path='chesweet')
     disaccharides_test.compute_cs(disaccharides_list[0], 50, 60)
     disaccharides_test.compute_cs(disaccharides_list[1], 50, 60)
     disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60)
 
-def test_compute_cs_few_full():# load determinated disaccharides (full) and check if this run
-    disaccharides_test = CheSweet(path='chesweet/lut', disaccharides=disaccharides_list, full=True)
+def test_compute_cs_full():
+    disaccharides_test = CheSweet(path='chesweet', full=True)
     disaccharides_test.compute_cs(disaccharides_list[0], 50, 60, 46.8, 78.6, 173.1)
     disaccharides_test.compute_cs(disaccharides_list[1], 50, 60, 46.8, 78.6, 173.1)
     disaccharides_test.compute_cs(disaccharides_list[2], 50, 60, 60, 46.8, 78.6)
@@ -209,48 +187,46 @@ def test_compute_cs_full():
         for i in range(0, len(tors_list)):
             if disaccharide != 'a-D-Glcp-1-1-a-D-Glcp':# 1-1 a Chi less
                 chemC1_full, chemCx_full = disaccharides_full.compute_cs(disaccharide,
-                                                                         tors_list[i][0], tors_list[i][1],
-                                                                         tors_list[i][2], tors_list[i][3],
+                                                                         tors_list[i][0],
+                                                                         tors_list[i][1],
+                                                                         tors_list[i][2],
+                                                                         tors_list[i][3],
                                                                          tors_list[i][4])
             else:
                 chemC1_full, chemCx_full = disaccharides_full.compute_cs(disaccharide,
-                                                                         tors_list[i][0], tors_list[i][1],
-                                                                         tors_list[i][2], tors_list[i][3])
+                                                                         tors_list[i][0],
+                                                                         tors_list[i][1],
+                                                                         tors_list[i][2],
+                                                                         tors_list[i][3])
             if chemC1_full != np.inf:
-                np.testing.assert_almost_equal(ef_corr-chemC1_full, chem_list[i][0],
-                                               decimal=4)
-                np.testing.assert_almost_equal(ef_corr-chemCx_full, chem_list[i][1],
-                                               decimal=4)
+                np.testing.assert_almost_equal(ef_corr-chemC1_full, chem_list[i][0], decimal=4)
+                np.testing.assert_almost_equal(ef_corr-chemCx_full, chem_list[i][1], decimal=4)
             else:# when the interpolation result is out of the caculated zone
                 # not subtract ef_corr because convert inf into -inf
-                np.testing.assert_almost_equal(chemC1_full, chem_list[i][0],
-                                               decimal=4)
-                np.testing.assert_almost_equal(chemCx_full, chem_list[i][1],
-                                               decimal=4)
+                np.testing.assert_almost_equal(chemC1_full, chem_list[i][0], decimal=4)
+                np.testing.assert_almost_equal(chemCx_full, chem_list[i][1], decimal=4)
 
 def test_compute_cs_red():
     for idx, disaccharide in enumerate(disaccharides_list):
         tors_list = all_tors_red[idx]
         chem_list = all_chem_red[idx]
-        for i in range(0, len(tors_list)):
-            if disaccharide != 'b-D-Galp-1-6-b-D-Galp':# 1-6 need omega
+        for i in range(len(tors_list)):
+            if disaccharide != 'b-D-Galp-1-6-b-D-Galp':  # 1-6 needs omega
                 chemC1_red, chemCx_red = disaccharides_red.compute_cs(disaccharide,
-                                                                      tors_list[i][0], tors_list[i][1])
+                                                                      tors_list[i][0],
+                                                                      tors_list[i][1])
             else:
                 chemC1_red, chemCx_red = disaccharides_red.compute_cs(disaccharide,
-                                                                      tors_list[i][0], tors_list[i][1],
+                                                                      tors_list[i][0],
+                                                                      tors_list[i][1],
                                                                       tors_list[i][2])
             if chemC1_red != np.inf:
-                np.testing.assert_almost_equal(ef_corr-chemC1_red, chem_list[i][0],
-                                               decimal=4)
-                np.testing.assert_almost_equal(ef_corr-chemCx_red, chem_list[i][1],
-                                               decimal=4)
+                np.testing.assert_almost_equal(ef_corr-chemC1_red, chem_list[i][0], decimal=4)
+                np.testing.assert_almost_equal(ef_corr-chemCx_red, chem_list[i][1], decimal=4)
             else:# when the interpolation result is out of the caculated zone
                 # not subtract ef_corr because convert inf into -inf
-                np.testing.assert_almost_equal(chemC1_red, chem_list[i][0],
-                                               decimal=4)
-                np.testing.assert_almost_equal(chemCx_red, chem_list[i][1],
-                                               decimal=4)
+                np.testing.assert_almost_equal(chemC1_red, chem_list[i][0], decimal=4)
+                np.testing.assert_almost_equal(chemCx_red, chem_list[i][1], decimal=4)
 
 
 def test_compute_tors_full():
@@ -262,11 +238,10 @@ def test_compute_tors_full():
             cs2 = ef_corr-chem_list[i][1]
             x = tors_list[i]
             y = disaccharides_full.compute_tors('{}'.format(disaccharide),
-                                                cs1, cs2, ef_corr=183.4, eps=0.5)
-            if y.size != 0:# values into the distribution
+                                                cs1, cs2, ef_corr=ef_corr, eps=0.5)
+            if y.size:
                 np.testing.assert_array_almost_equal(x, y, decimal=1, verbose=True)
-            else:# values out of the distribution
-                assert y.size == 0
+
 
 def test_compute_tors_red():
     for idx, disaccharide in enumerate(disaccharides_list):
@@ -277,10 +252,7 @@ def test_compute_tors_red():
             cs2 = ef_corr-chem_list[i][1]
             x = tors_list[i]
             y = disaccharides_red.compute_tors('{}'.format(disaccharide),
-                                               cs1, cs2, ef_corr=183.4, eps=0.5)
-            if y.size != 0:# values into the distribution
+                                               cs1, cs2, ef_corr=ef_corr, eps=0.5)
+            if y.size:
                 np.testing.assert_array_almost_equal(x, y, decimal=1, verbose=True)
-            else:# values out of the distribution
-                assert y.size == 0
-
 
