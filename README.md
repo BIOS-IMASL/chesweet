@@ -1,6 +1,7 @@
 # *Che*Sweet
 
 [![Build Status](https://travis-ci.org/BIOS-IMASL/chesweet.svg?branch=master)](https://travis-ci.org/BIOS-IMASL/chesweet)
+[![DOI](http://joss.theoj.org/papers/10.21105/joss.00488/status.svg)](http://joss.theoj.org/papers/5d4b945f9d9cbb2c0761c1b3a9d2cc66)
 
 *Che*Sweet: chemical shifts for glycans  
 
